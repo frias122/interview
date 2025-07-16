@@ -70,7 +70,7 @@ resource "aws_apigatewayv2_route" "default" {
 
 resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.http_api.id
-  name        = "\$default"
+  name        = "$default"
   auto_deploy = true
 }
 
@@ -81,3 +81,4 @@ resource "aws_lambda_permission" "api_gateway" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
 }
+

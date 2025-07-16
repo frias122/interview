@@ -1,4 +1,3 @@
-
 name: Deploy Serverless App
 
 on:
@@ -9,12 +8,25 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
+      - name: Setup AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ Gt9BMlkjFi35ATHGxlCZ744XPh7x3hxHeg83j31M }}
+          aws-secret-access-key: ${{ AKIATX64FWTDC43AN7HC }}
+          aws-region: ${{ eu-north-1 }}
+
+      - name: Package Lambda function
+        run: zip lambda_function_payload.zip lambda_function.py
 
       - name: Terraform Init
         run: terraform init
@@ -29,5 +41,4 @@ jobs:
         run: terraform plan
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
